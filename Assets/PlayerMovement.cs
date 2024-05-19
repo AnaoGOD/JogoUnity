@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour {
     float xInput;
     float yInput;
 
+    public Animator myAnim;
+
 
     // Update is called once per frame
     void Update()
@@ -82,7 +84,11 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && grounded)
         {
             body.velocity = new Vector2(body.velocity.x, jumpSpeed);
-
+            
+        }
+        if (body.velocity.y > 1 && !grounded)
+        {
+            myAnim.Play("Jump");
         }
     }
 
