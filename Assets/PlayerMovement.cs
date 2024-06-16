@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 
-    //Funções
+    //Funï¿½ï¿½es
 
 
 
