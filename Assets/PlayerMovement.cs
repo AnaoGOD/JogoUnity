@@ -87,12 +87,13 @@ public class PlayerMovement : MonoBehaviour {
             FaceInput();
             if (grounded==true )  { 
                 myAnim.Play("Corre");
+                myAnim.SetBool("notRunning", false);
             }
         }
         else if (Mathf.Abs(xInput) == 0)
         {
             body.velocity = new Vector2(0, body.velocity.y);
-
+            myAnim.SetBool("notRunning", true);
         }
 
     }

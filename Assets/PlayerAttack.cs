@@ -37,6 +37,7 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         myAnim = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -46,6 +47,7 @@ public class PlayerAttack : MonoBehaviour
         if (UnityEngine.Input.GetKeyDown(KeyCode.H) && !isAttacking) 
         { 
             Attack();
+            myAnim.SetBool("notAttacking", false);
         }
 
         if (timer > 0)
@@ -55,6 +57,7 @@ public class PlayerAttack : MonoBehaviour
         else
         {
             comboHits = 0;
+            myAnim.SetBool("notAttacking", true);
             if (facingRight == true)
             {
                 knockback = knockbackDefault;

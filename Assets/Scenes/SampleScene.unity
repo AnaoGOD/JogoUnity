@@ -576,9 +576,9 @@ MonoBehaviour:
   myAnim: {fileID: 378226329}
   isAttacking: 0
   delay: 0
-  delayAtaqueConst: 0.3
-  delayAtaque: 0.3
-  timerSet: 2
+  delayAtaqueConst: 0.4
+  delayAtaque: 0.4
+  timerSet: 0.3
   attackRange: 0.5
   enemyLayers:
     serializedVersion: 2
@@ -1733,8 +1733,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 128
-  acceleration: 0.7
-  groundDecay: 0.5
+  myAnimEnemy: {fileID: 631065571}
   speed: 3
   player: {fileID: 1314703736}
 --- !u!50 &1980215721
