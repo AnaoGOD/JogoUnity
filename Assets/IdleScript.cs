@@ -15,7 +15,7 @@ public class IdleScript : StateMachineBehaviour
     {
      if (PlayerAttack.instance.isAttacking)
         {
-            PlayerAttack.instance.myAnim.Play("Attack1");
+            PlayerAttack.instance.myAnim.Play("NovoAtaque1");
         }    
     }
 

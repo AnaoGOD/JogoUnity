@@ -15,14 +15,14 @@ public class transitionScript2 : StateMachineBehaviour
     {
         if (PlayerAttack.instance.isAttacking)
         {
-            PlayerAttack.instance.myAnim.Play("Attack3");
+            PlayerAttack.instance.myAnim.Play("NovoAtaque3");
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-               PlayerAttack.instance.isAttacking = false;
+        PlayerAttack.instance.isAttacking = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

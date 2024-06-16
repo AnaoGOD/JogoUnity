@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -20,10 +22,14 @@ public class PlayerMovement : MonoBehaviour {
 
     public bool grounded ;
 
-    float xInput;
-    float yInput;
-
+    public float xInput;
+    public float yInput;
     public Animator myAnim;
+
+    private void Awake()
+    {
+        Time.timeScale = 1f;
+    }
 
 
     // Update is called once per frame
@@ -37,10 +43,22 @@ public class PlayerMovement : MonoBehaviour {
     void FixedUpdate()
     {
         CheckGround();
-        HandleXMovement();
+        if (PlayerAttack.instance.delay == true)
+        {
+            PlayerAttack.instance.delayAtaque -= Time.deltaTime;
+            if (PlayerAttack.instance.delayAtaque < 0)
+            {
+                PlayerAttack.instance.delayAtaque = PlayerAttack.instance.delayAtaqueConst;
+                HandleXMovement();
+                PlayerAttack.instance.delay = false;
+            }
+            
+        }
+        else
+        {
+            HandleXMovement();
+        }
         ApplyFriction();
-
-       
     }
 
 
@@ -64,16 +82,20 @@ public class PlayerMovement : MonoBehaviour {
             float increment = xInput * acceleration;
             float newSpeed = Mathf.Clamp(body.velocity.x + increment, -MaxXSpeed,MaxXSpeed);
             body.velocity = new Vector2(newSpeed, body.velocity.y);
-
-            FaceInput();
             
-        } 
-        else if (Mathf.Abs(xInput) == 0 && grounded == false)
+            FaceInput();
+            if (grounded==true )  { 
+                myAnim.Play("Corre");
+            }
+        }
+        else if (Mathf.Abs(xInput) == 0)
         {
             body.velocity = new Vector2(0, body.velocity.y);
+
         }
+
     }
-    void FaceInput()
+    public void FaceInput()
     {
         float direction = Mathf.Sign(xInput);
         transform.localScale = new Vector3(direction, 1, 1);
@@ -89,6 +111,10 @@ public class PlayerMovement : MonoBehaviour {
         if (body.velocity.y > 1 && !grounded)
         {
             myAnim.Play("Jump");
+        }
+        if (body.velocity.y < 1.2 && !grounded)
+        {
+            myAnim.Play("Fall");
         }
     }
 
