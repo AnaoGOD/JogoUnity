@@ -37,8 +37,18 @@ public class PlayerMovement : MonoBehaviour {
     void Update()
     {
         CheckInput();
-        HandleJump();
-      
+        if (PlayerAttack.instance.delay == true) 
+        { 
+            if (PlayerAttack.instance.delayAndar < 0.2)
+            {
+                HandleJump();
+            }
+        }
+        else
+        {
+            HandleJump();
+        }
+
     }
 
     void FixedUpdate()
@@ -46,10 +56,10 @@ public class PlayerMovement : MonoBehaviour {
         CheckGround();
         if (PlayerAttack.instance.delay == true)
         {
-            PlayerAttack.instance.delayAtaque -= Time.deltaTime;
-            if (PlayerAttack.instance.delayAtaque < 0)
+            PlayerAttack.instance.delayAndar -= Time.deltaTime;
+            if (PlayerAttack.instance.delayAndar < 0)
             {
-                PlayerAttack.instance.delayAtaque = PlayerAttack.instance.delayAtaqueConst;
+                PlayerAttack.instance.delayAndar = PlayerAttack.instance.delayAndarDefault;
                 HandleXMovement();
                 PlayerAttack.instance.delay = false;
             }
@@ -85,17 +95,35 @@ public class PlayerMovement : MonoBehaviour {
             body.velocity = new Vector2(newSpeed, body.velocity.y);
             
             FaceInput();
-            if (grounded==true )  { 
+            if (grounded==true)  { 
                 myAnim.Play("Corre");
                 myAnim.SetBool("notRunning", false);
+                myAnim.SetBool("notGrounded", false);
+
             }
         }
         else if (Mathf.Abs(xInput) == 0)
         {
             body.velocity = new Vector2(0, body.velocity.y);
             myAnim.SetBool("notRunning", true);
+            if (grounded == true)
+            {
+                myAnim.SetBool("notGrounded", false);
+            }
         }
 
+        if (body.velocity.y > 1 && !grounded)
+        {
+            myAnim.Play("Jump");
+            myAnim.SetBool("notGrounded", true);
+
+        }
+        if (body.velocity.y < 1.2 && !grounded)
+        {
+            myAnim.Play("Fall");
+            myAnim.SetBool("notGrounded", true);
+
+        }
     }
     public void FaceInput()
     {
@@ -110,21 +138,13 @@ public class PlayerMovement : MonoBehaviour {
             body.velocity = new Vector2(body.velocity.x, jumpSpeed);
             
         }
-        if (body.velocity.y > 1 && !grounded)
-        {
-            myAnim.Play("Jump");
-        }
-        if (body.velocity.y < 1.2 && !grounded)
-        {
-            myAnim.Play("Fall");
-        }
+
     }
 
     //Verificar se personagem esta no chao
     void CheckGround()
     {
         grounded = Physics2D.OverlapAreaAll(groundCheck.bounds.min, groundCheck.bounds.max, groundMask).Length > 0;
-
     }
     //Aplicar friccao ao parar de andar (para nao parar instantaneamente)
     void ApplyFriction()
